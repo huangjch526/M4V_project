@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="M4V: Multi-Modal Mamba for Text-to-Video Generation"
+          name="description">
+    <meta content="GPT4Motion, StableDiffusion" name="keywords">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>M4V: Multi-Modal Mamba for Text-to-Video Generation</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+          rel="stylesheet">
+
+    <link href="./static/css/bulma.min.css" rel="stylesheet">
+    <link href="./static/css/bulma-carousel.min.css" rel="stylesheet">
+    <link href="./static/css/bulma-slider.min.css" rel="stylesheet">
+    <link href="./static/css/fontawesome.all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+          rel="stylesheet">
+    <link href="./static/css/index.css" rel="stylesheet">
+    <link href="./static/images/icons8-basketball-96.png" rel="icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+    <style>
+        .special-font {
+            font-family: 'Caveat', cursive;
+            font-size: 24px;
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .video-item {
+            width: 18%;
+            margin: 5px;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+<nav aria-label="main navigation" class="navbar" role="navigation">
+    <div class="navbar-brand">
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger" role="button">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <!--    <div class="navbar-menu">-->
+    <!--        <div class="navbar-start" style="flex-grow: 1; justify-content: center;">-->
+
+    <!--            <div class="navbar-item has-dropdown is-hoverable">-->
+    <!--                <a class="navbar-link">-->
+    <!--                    Contact-->
+    <!--                </a>-->
+    <!--                <div class="navbar-dropdown">-->
+    <!--                    <a class="navbar-item" href="mailto:lvjiaxi22@mails.ucas.ac.cn">-->
+    <!--                        GaaHey Leoi-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+
+    <!--    </div>-->
+</nav>
+
+
+<section class="hero">
+    <div class="hero-body">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column has-text-centered">
+                    <h1 class="title is-1 publication-title">🐍M4V: Multi-Modal Mamba for Text-to-Video Generation</h1>
+                    <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="">Jiancheng Huang</a><sup>1*</i></sup>,</span>
+                        <span class="author-block">
+              <a href="">Gengwei Zhang</a><sup>2*</sup>,</span>
+                        <span class="author-block">
+              <a href="">ZEQUN JIE</a><sup>1✝</sup>,
+            </span>
+                        <span class="author-block">
+              <a href="">Yinlong Qian</a><sup>1</sup>,
+            </span>
+                        <span class="author-block">
+              <a href="">Ling Chen</a><sup>2</sup>,
+            </span>
+                        <br/>
+                        <span class="author-block">
+              <a href="">Yunchao Wei</a><sup>3</sup>,
+            </span>
+                        <span class="author-block">
+              <a href="">Lin Ma</a><sup>1</sup>,
+            </span>
+                    </div>
+
+                    <div class="is-size-5 publication-authors">
+                        <span class="author-block"><sup>1</sup>Meituan,</span>
+                        <span class="author-block"><sup>2</sup>University of Techcnology Sydney,</span>
+                        <span class="author-block"><sup>3</sup>Beijing Jiaotong University</span>
+                    </div>
+                    <div
+                            class="is-size-5 publication-authors">
+                        <p><i class="fas fa-envelope"></i> : jianchenghuang@smail.nju.edu.cn</p>
+
+                    </div>
+                    <div class="column has-text-centered">
+                        <div class="publication-links">
+                                          <span class="link-block">
+                                            <a class="external-link button is-normal is-rounded is-dark"
+                                               href="https://arxiv.org/pdf/xxx">
+                                              <span class="icon">
+                                                  <i class="fas fa-file-pdf"></i>
+                                              </span>
+                                              <span>Paper</span>
+                                            </a>
+                                          </span>
+                            <span class="link-block" disabled>
+                <a class="external-link button is-normal is-rounded is-dark"
+                   href="https://arxiv.org/abs/xxx">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+
+                  <span>arXiv</span>
+                </a>
+              </span>
+                            <!-- Video Link. -->
+                            <!--              <span class="link-block">-->
+                            <!--                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"-->
+                            <!--                   class="external-link button is-normal is-rounded is-dark">-->
+                            <!--                  <span class="icon">-->
+                            <!--                      <i class="fab fa-youtube"></i>-->
+                            <!--                  </span>-->
+                            <!--                  <span>Video</span>-->
+                            <!--                </a>-->
+                            <!--              </span>-->
+                            <!-- Code Link. -->
+                            <span class="link-block">
+                <a class="external-link button is-normal is-rounded is-dark"
+                   href="https://github.com/huangjch526/M4V">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+
+                            <span class="link-block">
+                                            <a href="https://www.jiqizhixin.com/articles/2023-11-28-2"
+                                               class="external-link button is-normal is-rounded is-dark">
+                                              <span class="icon">
+                                                  <i class="far fa-images"></i>
+                                              </span>
+                                              <span>公众号</span>
+                                              </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--<section class="hero teaser">-->
+<!--  <div class="container is-max-desktop">-->
+<!--    <div class="hero-body">-->
+<!--      <video id="teaser" autoplay muted loop playsinline height="100%">-->
+<!--        <source src="./static/videos/teaser.mp4"-->
+<!--                type="video/mp4">-->
+<!--      </video>-->
+<!--      <h2 class="subtitle has-text-centered">-->
+<!--        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into-->
+<!--        free-viewpoint-->
+<!--        portraits.-->
+<!--      </h2>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+
+
+<!--<section class="hero is-light is-small">-->
+<!--    <div class="hero-body">-->
+<!--        <div class="container">-->
+<!--            <div class="carousel results-carousel" id="results-carousel">-->
+<!--                <div class="item item-basketball">-->
+<!--                    <video autoplay controls height="100%" id="basketball" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_A basketball fell out of the air.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+
+<!--                <div class="item item-basketball-camera">-->
+<!--                    <video autoplay controls height="100%" id="basketball-camera" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_A basketball is thrown towards the camera.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+
+<!--                <div class="item item-basketball-spins_out">-->
+<!--                    <video autoplay controls height="100%" id="basketball-spins_out" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_A basketball spins out of the air and falls.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--                <div class="item item-four-basketballs">-->
+<!--                    <video autoplay controls height="100%" id="four-basketballs" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_Four basketballs spinning randomly in the air in free fall.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--                <div class="item item-T-shirt-light-wind">-->
+<!--                    <video autoplay controls height="100%" id="T-shirt-light-wind" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_A white T-shirt flutters in a light wind.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--                <div class="item item-T-shirt-heavy-wind">-->
+<!--                    <video autoplay controls height="100%" id="T-shirt-fierce-wind" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_A white T-shirt flutters in fierce winds.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--                <div class="item item-T-shirt-wind">-->
+<!--                    <video autoplay controls height="100%" id="T-shirt-heavy-wind" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_A white T-shirt flutters in the wind.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--                <div class="item item-flag-wind">-->
+<!--                    <video autoplay controls height="100%" id="flag-wind" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_A white flag flaps in the wind.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--                <div class="item item-flag-light-wind">-->
+<!--                    <video autoplay controls height="100%" id="flag-light-wind" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_A white flag flaps in a light wind.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--                <div class="item item-flag-fierce-wind">-->
+<!--                    <video autoplay controls height="100%" id="flag-fierce-wind" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_A white flag flaps in fierce winds.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--                <div class="item item-water">-->
+<!--                    <video autoplay controls height="100%" id="water" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_A large amount of water flows into a white mug, top-down view.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--                <div class="item item-viscous-water">-->
+<!--                    <video autoplay controls height="100%" id="viscous-water" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_Viscous water flows into a white mug, top-down view.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--                <div class="item item-very-viscous-water">-->
+<!--                    <video autoplay controls height="100%" id="very-viscous-water" loop muted playsinline poster="">-->
+<!--                        <source src="./static/24videos/1.0_1.0_Very viscous water flows into a white mug, top-down view.mp4"-->
+<!--                                type="video/mp4">-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<section class="section">
+    <div class="container is-max-desktop">
+        <!-- Abstract. -->
+        <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+                <h2 class="title is-3">Abstract</h2>
+                <div class="content has-text-justified">
+                    <p>
+                        Text-to-video generation has significantly enriched content creation and holds the potential to evolve into powerful world simulators. However, modeling the vast spatiotemporal space remains computationally demanding, particularly when employing Diffusion Transformers (DiTs), which incur quadratic complexity in sequence processing, thereby limiting its practical applications. Recent advancements in linear-time sequence modeling, particularly the Mamba architecture, offer a more efficient alternative to Transformers.
+                        Nevertheless, its plain design constrains its direct application to multi-modal and spatiotemporal video generation tasks. To address these challenges, we introduce M4V, a Multi-Modal Mamba framework for text-to-video generation. Specifically, we introduce a multi-modal diffusion Mamba (MM-DiM) block that enables seamless multi-modal integration and spatiotemporal modeling within an autoregressive generation pipeline. Additionally, to mitigate error accumulation in long-context autoregressive processes, we introduce a reward learning strategy to enhance per-frame consistency and quality. As a result, the Mamba blocks in M4V reduce the FLOPs by 45\% compared to the attention alternative when generating 121-frame videos at 768×1280 resolution. Extensive experiments on text-to-video benchmarks demonstrate M4V's ability to produce high-quality videos while significantly lowering computational costs. Code and models will be publicly available.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--/ Abstract. -->
+
+        <!-- Paper video. -->
+        <!--    <div class="columns is-centered has-text-centered">-->
+        <!--      <div class="column is-four-fifths">-->
+        <!--        <h2 class="title is-3">Video</h2>-->
+        <!--        <div class="publication-video">-->
+        <!--          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"-->
+        <!--                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>-->
+        <!--        </div>-->
+        <!--      </div>-->
+        <!--    </div>-->
+        <!--/ Paper video. -->
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered">
+            <div class="column is-full-width">
+                <h2 class="title is-3 has-text-centered">Architecture</h2>
+                <img alt="Architecture" src="./static/images/overview_page.jpg" width="100%"/>
+                <p>(a) Overview of the generation architecture. (b) Detailed strcture of our MM-DiM Block. 
+                    alpha, beta, gamma are introduced by projecting the timestep condition, and we ommit the projection for simplicity. (c) Illustration of MM-Token Re-Composition.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container is-max-desktop is-centered has-text-centered">
+
+        <h2 class="title">More Results</h2>
+        <br/>
+        <div class="columns is-centered">
+            <!-- Visual Effects. -->
+            <div class="column">
+                <div class="content">
+                    <p class="special-font">
+                        A sleek and modern editorial fashion photograph, full body, showcases a young Japanese ...
+                    </p>
+                    <!--          <video id="video-basketball" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">-->
+                    <!--            <source src="./static/24videos/1.0_1.0_A basketball fell out of the air.mp4"-->
+                    <!--                                type="video/mp4">-->
+                    <!--          </video>-->
+                    <!--                    <p>-->
+                    <!--                        A basketball spins out of the air and falls.-->
+                    <!--                    </p>-->
+                    <!--                    <img src="static/images/1.png">-->
+                    <video autoplay="" controls="" height="100%" id="A basketball spins out of the air and falls"
+                           loop=""
+                           muted="" playsinline="">
+                        <source src="./static/24videos/A sleek and modern editorial fashion photograph, full body, showcases a young Ja0.mp4"
+                                type="video/mp4">
+                    </video>
+                    <hr>
+                    <p class="special-font">
+                        a young Japanese woman standing waiting for a train outside station ...
+                    </p>
+                    <video autoplay="" controls="" height="100%" id="Four basketballs spin randomly in the air and fall"
+                           loop="" muted="" playsinline="">
+                        <source src="./static/24videos/a young Japanese woman standing waiting for a train outside station,0.mp4"
+                                type="video/mp4">
+                    </video>
+                    <hr>
+                    <p class="special-font">
+                        A young person, wearing a cozy gray hoodie and black-rimmed glasses, sits in a dimly lit room, intensely focused on a video game. The glow from the TV screen illuminates their face, highlighting their ...
+                    </p>
+                    <video autoplay="" controls="" height="100%" id="A basketball is thrown towards the camera" loop=""
+                           muted="" playsinline="">
+                        <source src="./static/24videos/A young person, wearing a cozy gray hoodie and black-rimmed glasses, sits in a dimly lit room, intensely focused on a video game. The glow from the TV screen illuminates their face, highlighting their1.mp4"
+                                type="video/mp4">
+                    </video>
+
+                    <p class="special-font">
+                        A determined individual in a sleek, black athletic outfit jogs along a winding forest trail, surrounded by towering trees and dappled sunlight filtering through the leaves. Their rhythmic strides ...
+                    </p>
+                    <video autoplay="" controls="" height="100%" id="Water flows into a white mug on a table" loop=""
+                           muted="" playsinline="">
+                        <source src="./static/24videos/A determined individual in a sleek, black athletic outfit jogs along a winding forest trail, surrounded by towering trees and dappled sunlight filtering through the leaves. Their rhythmic strides crea0.mp4"
+                                type="video/mp4">
+                    </video>
+                    <hr>
+                    <p class="special-font">
+                        A futuristic cityscape at dusk, with flying cars zipping between towering skyscrapers adorned with neon lights
+                    </p>
+                    <video autoplay="" controls="" height="100%" id="Viscous water flows into a white mug on a table"
+                           loop="" muted="" playsinline="">
+                        <source src="./static/24videos/A futuristic cityscape at dusk, with flying cars zipping between towering skyscrapers adorned with neon lights._1738149110.6495311.mp4"
+                                type="video/mp4">
+                    </video>
+                    <hr>
+                    <p class="special-font">
+                        a young woman wearing a purple sweater running in a park during autumn
+                    </p>
+                    <video autoplay="" controls="" height="100%"
+                           id="Very viscous water flows into a white mug on a table" loop=""
+                           muted="" playsinline="">
+                        <source src="./static/24videos/a young woman wearing a purple sweater running in a park during autumn.1.mp4"
+                                type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <!--/ Visual Effects. -->
+
+            <!-- Matting. -->
+            <div class="column">
+                <div class="columns is-centered">
+                    <div class="column content">
+
+                        <p class="special-font">
+                            In a charming Parisian café, a panda sits at a quaint wooden table, sipping coffee from a delicate porcelain cup. The panda, wearing a stylish beret and a striped scarf, embodies a whimsical blend of ...
+                        </p>
+                        <video autoplay="" controls="" height="100%" id="A white T-shirt flutters in light wind" loop=""
+                               muted="" playsinline="">
+                            <source src="./static/24videos/In a charming Parisian café, a panda sits at a quaint wooden table, sipping coffee from a delicate porcelain cup. The panda, wearing a stylish beret and a striped scarf, embodies a whimsical blend of 4.mp4"
+                                    type="video/mp4">
+                        </video>
+                        <hr>
+                        <p class="special-font">
+                            In the bustling heart of Amsterdam, a young man in a black beanie and jacket str ...
+                        </p>
+                        <video autoplay="" controls="" height="100%" id="A white T-shirt flutters in the wind"
+                               loop="" muted="" playsinline="">
+                            <source src="./static/24videos/In the bustling heart of Amsterdam, a young man in a black beanie and jacket str1.mp4"
+                                    type="video/mp4">
+                        </video>
+                        <hr>
+                        <p class="special-font">
+                            In the bustling heart of NYC's Times Square, a life-sized teddy bear, dressed in a tiny leather jacket and sunglasses, sits behind a gleaming drum kit. The bear's furry paws expertly strike the drums ...
+                        </p>
+                        <video autoplay="" controls="" height="100%" id="A white T-shirt flutters in strong wind"
+                               loop=""
+                               muted="" playsinline="">
+                            <source src="./static/24videos/In the bustling heart of NYC's Times Square, a life-sized teddy bear, dressed in a tiny leather jacket and sunglasses, sits behind a gleaming drum kit. The bear's furry paws expertly strike the drums 0.mp4"
+                                    type="video/mp4">
+                        </video>
+
+                        <p class="special-font">
+                            In the neon-lit streets of Cyberpunk Beijing, a colossal robot towers over the cityscape, its sleek metallic frame adorned with glowing blue and red lights. The robot's design is a fusion of futuristi ...
+                        </p>
+                        <video autoplay="" controls="" height="100%" id="A white flag flaps in light wind" loop=""
+                               muted="" playsinline="">
+                            <source src="./static/24videos/In the neon-lit streets of Cyberpunk Beijing, a colossal robot towers over the cityscape, its sleek metallic frame adorned with glowing blue and red lights. The robot's design is a fusion of futuristi2.mp4"
+                                    type="video/mp4">
+                        </video>
+                        <hr>
+                        <p class="special-font">
+                            In the video, a group of school children is seen walking together, with some of them using their smartphones. Among them, a young boy and girl are walking side by side, both looking at their phones ...
+                        </p>
+                        <video autoplay="" controls="" height="100%" id="A white flag flaps in the wind"
+                               loop="" muted="" playsinline="">
+                            <source src="./static/24videos/In the video, a group of school children is seen walking together, with some of them using their smartphones. Among them, a young boy and girl are walking side by side, both looking at their phones. T1.mp4"
+                                    type="video/mp4">
+                        </video>
+                        <hr>
+                        <p class="special-font">
+                            A stylish woman walks down the streets of Tokyo, surrounded by warm neon lights and vibrant city signs. She wears a black leather jacket, a red long skirt, black boots, and carries a black purse. She ...
+                        </p>
+                        <video autoplay="" controls="" height="100%" id="A white flag flaps in strong wind" loop=""
+                               muted="" playsinline="">
+                            <source src="./static/24videos/A stylish woman walks down the streets of Tokyo, surrounded by warm neon lights and vibrant city signs. She wears a black leather jacket, a red long skirt, black boots, and carries a black purse. She 6363.mp4"
+                                    type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <!--/ Matting. -->
+
+
+        <!--/ Concurrent Work. -->
+
+    </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+   <div class="container is-max-desktop content">
+       <h2 class="title">BibTeX</h2>
+       <pre><code>@article{2025M4V,
+ author    = {Jiancheng Huang and Gengwei Zhang etc},
+ title     = {M4V: Multi-Modal Mamba for Text-to-Video Generation"
+ name="description},
+}</code></pre>
+   </div>
+</section>
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <!--      <a class="icon-link"-->
+            <!--         href="./static/videos/nerfies_paper.pdf">-->
+            <!--        <i class="fas fa-file-pdf"></i>-->
+            <!--      </a>-->
+            <!--      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>-->
+            <!--        <i class="fab fa-github"></i>-->
+            <!--      </a>-->
+        </div>
+        <div class="columns is-centered">
+            <div class="column is-8">
+                <div class="content">
+                    <p>
+                        This website template is borrowed from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
